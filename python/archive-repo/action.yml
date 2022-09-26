@@ -10,13 +10,6 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Get version
-      id: setup-py
-      shell: bash
-      run: |
-        version=$(python setup.py --version)
-        echo "::set-output name=version::$version"
-
     # Archive this repository
     - name: Create a tar file of this repository
       shell: bash
