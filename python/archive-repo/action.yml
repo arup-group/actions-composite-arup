@@ -5,7 +5,7 @@ inputs:
     description: 'Name of this project'
     required: true
 outputs:
-  version:
+  package-version:
     description: "Version of this package"
     value: ${{ steps.setup-py.outputs.version }}
 runs:
