@@ -1,0 +1,18 @@
+name: 'Distribute package behind VPN'
+description: 'Take this repo and copy to location behind VPN'
+inputs:
+  project-name:  # id of input
+    description: 'Name of project to upload'
+    required: true
+  package-version:  # id of input
+    description: 'Version number of this project'
+    required: true
+runs:
+  using: "composite"
+  steps:
+    # Move to a location that can be accessed at packages.arup.com
+    - name: Move package to download location
+      run: |
+        mv package/${{ inputs.project-name }}-${{ inputs.package-version }}.tar ~/packages/${{ inputs.project-name }}-${{ inputs.package-version }}.tar
+        cp -f ~/packages/${{ inputs.project-name }}-${{ inputs.package-version }}.tar ~/packages/${{ inputs.project-name }}.tar
+        rm -rf package
