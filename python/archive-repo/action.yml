@@ -1,0 +1,31 @@
+name: 'Archive Repository'
+description: 'Archive this repository and set version'
+inputs:
+  project-name:  # id of input
+    description: 'Name of this project'
+    required: true
+outputs:
+  version:
+    description: "Version of this package"
+    value: ${{ steps.setup-py.outputs.version }}
+runs:
+  using: "composite"
+  steps:
+    - name: Get version
+      id: setup-py
+      run: |
+        version=$(python setup.py --version)
+        echo "::set-output name=version::$version"
+
+    # Archive this repository
+    - name: Create a tar file of this repository
+      run: |
+        git archive --format tar --output ${{ inputs.project-name }}-${{ steps.setup-py.outputs.version }}.tar HEAD
+
+    # Upload to GitHub
+    - name: upload to GitHub workflow
+      uses: actions/upload-artifact@v3
+      with:
+        name: package
+        path: ${{ inputs.project-name }}-${{ steps.setup-py.outputs.version }}.tar
+        retention-days: 1
