@@ -12,6 +12,7 @@ runs:
   steps:
     # Move to a location that can be accessed at packages.arup.com
     - name: Move package to download location
+      shell: bash
       run: |
         mv package/${{ inputs.project-name }}-${{ inputs.package-version }}.tar ~/packages/${{ inputs.project-name }}-${{ inputs.package-version }}.tar
         cp -f ~/packages/${{ inputs.project-name }}-${{ inputs.package-version }}.tar ~/packages/${{ inputs.project-name }}.tar
