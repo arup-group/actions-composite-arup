@@ -1,4 +1,4 @@
-name: 'Deploy VuePress to S3'
+name: 'Deploy Vue to S3'
 description: 'Greet someone'
 inputs:
   account-number:  # id of input
