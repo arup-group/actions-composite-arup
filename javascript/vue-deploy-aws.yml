@@ -1,0 +1,56 @@
+name: 'Deploy VuePress to S3'
+description: 'Greet someone'
+inputs:
+  account-number:  # id of input
+    description: 'AWS account number'
+    required: true
+  s3-bucket:
+    description: 'location of static pages'
+  cloudfront-distribution:
+    description: 'CloudFront Distribution ID'
+    required: true
+  working-directory:
+    description: 'Working Directory'
+    required: true
+  region:
+    description: 'Region'
+    required: false
+    default: 'eu-west-1'
+  posthog-token:
+    description: 'Token e.g. phc_... (optional)'
+    required: false
+runs:
+  using: "composite"
+  steps:
+      - name: Clone repository
+        uses: actions/checkout@v3
+      
+      - name: Install third party dependencies
+        shell: bash
+        working-directory: ${{ inputs.working-directory }}
+        run: npm install
+        
+      - name: Build docs
+        shell: bash
+        working-directory: ${{ inputs.working-directory }}
+        run: npm run build
+        env:
+          VUE_ENV_POSTHOG_TOKEN: '${{ inputs.posthog-token }}'
+        
+      - name: configure aws credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: arn:aws:iam::${{ inputs.account-number }}:role/GitHub
+          role-session-name: rolesession
+          aws-region: ${{ inputs.region }}
+        
+      - name: Upload to S3
+        working-directory: ${{ inputs.working-directory }}
+        shell: bash
+        run: |
+          aws s3 sync --delete dist s3://${{ inputs.s3-bucket }}
+          
+      - name: Invalidate Cache
+        shell: bash
+        run: |
+          aws cloudfront create-invalidation --distribution-id ${{ inputs.cloudfront-distribution }} --paths /index.html
