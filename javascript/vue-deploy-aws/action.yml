@@ -1,5 +1,5 @@
 name: 'Deploy Vue to S3'
-description: 'Greet someone'
+description: 'Build and deploy Vue static site to AWS S3'
 inputs:
   account-number:  # id of input
     description: 'AWS account number'
