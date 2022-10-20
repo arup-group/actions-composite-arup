@@ -14,6 +14,10 @@ runs:
     - name: Move package to download location
       shell: bash
       run: |
-        mv package ~/git/repos/${{ inputs.project-name }}-${{ inputs.package-version }}.git
-        cp -fr ~/git/repos/${{ inputs.project-name }}-${{ inputs.package-version }}.git ~/git/repos/${{ inputs.project-name }}.git
+        target_dir=~/git/repos/${{ inputs.project-name }}-${{ inputs.package-version }}.git
+        latest_target_dir=~/git/repos/${{ inputs.project-name }}.git
+        [[ -d $target_dir ]] && rm -rf $target_dir || echo "directory doesn't exist"
+        [[ -d $latest_target_dir ]] && rm -rf $latest_target_dir || echo "directory doesn't exist"
+        mv package $target_dir
+        cp -fr $target_dir $latest_target_dir
         rm -rf package
