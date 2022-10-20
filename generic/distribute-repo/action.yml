@@ -14,6 +14,6 @@ runs:
     - name: Move package to download location
       shell: bash
       run: |
-        mv package/.git ~/git/repos/${{ inputs.project-name }}-${{ inputs.package-version }}.git
-        cp -f ~/git/repos/${{ inputs.project-name }}-${{ inputs.package-version }}.tar ~/git/repos/${{ inputs.project-name }}.tar
+        mv package ~/git/repos/${{ inputs.project-name }}-${{ inputs.package-version }}.git
+        cp -f ~/git/repos/${{ inputs.project-name }}-${{ inputs.package-version }}.git ~/git/repos/${{ inputs.project-name }}.git
         rm -rf package
