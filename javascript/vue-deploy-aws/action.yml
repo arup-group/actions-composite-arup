@@ -16,6 +16,10 @@ inputs:
     description: 'Region'
     required: false
     default: 'eu-west-1'
+  role-to-assume:
+    description: 'The name of the role to role-to-assume'
+    required: false
+    default: 'GitHub'
   posthog-token:
     description: 'Token e.g. phc_... (optional)'
     required: false
@@ -40,7 +44,7 @@ runs:
       - name: configure aws credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          role-to-assume: arn:aws:iam::${{ inputs.account-number }}:role/GitHub
+          role-to-assume: arn:aws:iam::${{ inputs.account-number }}:role/${{ inputs.role-to-assume }}
           role-session-name: rolesession
           aws-region: ${{ inputs.region }}
         
