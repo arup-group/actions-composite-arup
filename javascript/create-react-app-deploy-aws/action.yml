@@ -62,7 +62,7 @@ runs:
         working-directory: ${{ inputs.working-directory }}
         shell: bash
         run: |
-          aws s3 sync --delete dist s3://${{ inputs.s3-bucket }}
+          aws s3 sync --delete build s3://${{ inputs.s3-bucket }}
           
       - name: Invalidate Cache
         shell: bash
