@@ -13,6 +13,10 @@ inputs:
   working-directory:
     description: 'Working Directory'
     required: true
+  build-directory:
+    description: 'The location of the built files'
+    required: false
+    default: 'build'
   region:
     description: 'Region'
     required: false
@@ -62,7 +66,7 @@ runs:
         working-directory: ${{ inputs.working-directory }}
         shell: bash
         run: |
-          aws s3 sync --delete build s3://${{ inputs.s3-bucket }}
+          aws s3 sync --delete ${{ inputs.build-directory }} s3://${{ inputs.s3-bucket }}
           
       - name: Invalidate Cache
         shell: bash
