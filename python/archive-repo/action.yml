@@ -18,7 +18,7 @@ runs:
 
     # Upload to GitHub
     - name: upload to GitHub workflow
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: package
         path: ${{ inputs.project-name }}-${{ inputs.package-version }}.tar
